@@ -1,4 +1,5 @@
 class ExpenseEntity {
+  final int id;
   final String description;
   final DateTime expenseDate;
   final double amount;
@@ -6,6 +7,7 @@ class ExpenseEntity {
   final String longitude;
 
   const ExpenseEntity({
+    required this.id,
     required this.description,
     required this.expenseDate,
     required this.amount,
