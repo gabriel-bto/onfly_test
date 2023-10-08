@@ -5,7 +5,7 @@ extension ExpenseModel on ExpenseEntity {
     return ExpenseEntity(
       id: json['id'] as int,
       description: json['description'] as String,
-      expenseDate: json['expenseDate'] as DateTime,
+      expenseDate: DateTime.parse(json['expense_date']),
       amount: json['amount'] as double,
       latitude: json['latitude'] as String,
       longitude: json['longitude'] as String,
@@ -15,7 +15,7 @@ extension ExpenseModel on ExpenseEntity {
   Map toJson() {
     return {
       'description': description,
-      'expenseDate': expenseDate,
+      'expense_date': expenseDate,
       'amount': amount,
       'latitude': latitude,
       'longitude': longitude,
