@@ -16,7 +16,7 @@ class GetAllExpensesRemoteDatasourceImplementation
     var response = await _httpClientImplementation.get(
       ApiUtils.routeListExpenses,
     );
-    var jsonList = jsonEncode(response) as List;
+    var jsonList = jsonEncode(response.body) as List;
     return jsonList.map((json) => ExpenseModel.fromJson(json)).toList();
   }
 }
