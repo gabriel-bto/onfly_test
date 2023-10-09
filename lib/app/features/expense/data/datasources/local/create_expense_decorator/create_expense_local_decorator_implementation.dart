@@ -4,7 +4,7 @@ import 'create_expense_local_decorator.dart';
 
 class CreateExpenseLocalDecoratorImplementation
     extends CreateExpenseLocalDecorator {
-  CreateExpenseLocalDecoratorImplementation(super.getAllExpensesDatasource);
+  CreateExpenseLocalDecoratorImplementation(super.createExpensesDatasource);
 
   final _sqliteConnectionFactory = SqliteConnectionFactory();
 
