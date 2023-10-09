@@ -12,7 +12,7 @@ extension ExpenseModel on ExpenseEntity {
     );
   }
 
-  Map toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'description': description,
       'expense_date': expenseDate,
