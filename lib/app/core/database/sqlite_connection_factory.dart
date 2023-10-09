@@ -6,7 +6,7 @@ import 'sqlite_migration_factory.dart';
 
 class SqliteConnectionFactory {
   static const _version = 1;
-  static const _databaseName = 'TODO_LIST';
+  static const _databaseName = 'OnFly RDV';
 
   static SqliteConnectionFactory? _instance;
 
