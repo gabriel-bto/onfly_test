@@ -14,12 +14,12 @@ class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
 void main() {
   test('should update an expense', () async {
     var newExpense = ExpenseEntity(
-      id: 1,
+      id: 'zrfs2etc',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
       amount: 12.50,
-      latitude: "80.121212",
-      longitude: "40.232323",
+      latitude: '80.121212',
+      longitude: '40.232323',
     );
 
     UpdateExpenseUsecase useCase = UpdateExpenseUsecaseImplementation(

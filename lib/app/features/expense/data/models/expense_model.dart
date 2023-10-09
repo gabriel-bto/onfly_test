@@ -3,7 +3,7 @@ import '../../domain/entities/expense_entity.dart';
 extension ExpenseModel on ExpenseEntity {
   static ExpenseEntity fromJson(Map json) {
     return ExpenseEntity(
-      id: json['id'] as int,
+      id: json['id'] as String,
       description: json['description'] as String,
       expenseDate: DateTime.parse(json['expense_date']),
       amount: json['amount'] as double,

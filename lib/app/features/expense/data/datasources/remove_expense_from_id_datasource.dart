@@ -1,3 +1,3 @@
 abstract class RemoveExpenseFromIdDatasource {
-  Future<bool> call(int id);
+  Future<bool> call(String id);
 }

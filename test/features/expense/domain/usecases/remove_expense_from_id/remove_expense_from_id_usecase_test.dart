@@ -8,19 +8,19 @@ class RemoveExpenseFromIdRepositoryImplementation
     implements RemoveExpenseFromIdRepository {
   final List<ExpenseEntity> expenses = [
     ExpenseEntity(
-      id: 1,
+      id: 'zrfs2etc',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
       amount: 12.50,
-      latitude: "80.121212",
-      longitude: "40.232323",
+      latitude: '80.121212',
+      longitude: '40.232323',
     ),
   ];
 
   @override
-  Future<bool> call(int id) async {
-    if (id < 0) {
-      throw ArgumentError('Id não pode ser um valor negativo');
+  Future<bool> call(String id) async {
+    if (id.isEmpty) {
+      throw ArgumentError('Id não pode ser vazio');
     }
 
     expenses.singleWhere(
@@ -39,7 +39,7 @@ void main() {
       RemoveExpenseFromIdRepositoryImplementation(),
     );
 
-    expect(() async => await useCase(-1), throwsA(isA<ArgumentError>()));
+    expect(() async => await useCase(''), throwsA(isA<ArgumentError>()));
   });
 
   test('should throw Exception', () {
@@ -48,7 +48,7 @@ void main() {
       RemoveExpenseFromIdRepositoryImplementation(),
     );
 
-    expect(() async => await useCase(0), throwsA(isA<Exception>()));
+    expect(() async => await useCase('404'), throwsA(isA<Exception>()));
   });
 
   test('should delete expense entity for a given id', () async {
@@ -57,7 +57,7 @@ void main() {
       RemoveExpenseFromIdRepositoryImplementation(),
     );
 
-    final result = await useCase(1);
+    final result = await useCase('zrfs2etc');
 
     expect(result, true);
   });

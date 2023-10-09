@@ -15,7 +15,7 @@ class GetExpenseFromIdRemoteDatasourceImplementation
   );
 
   @override
-  Future<ExpenseEntity> call(int id) async {
+  Future<ExpenseEntity> call(String id) async {
     var response = await _httpClientImplementation.get(
       ApiUtils.getRouteGetExpense(id),
     );

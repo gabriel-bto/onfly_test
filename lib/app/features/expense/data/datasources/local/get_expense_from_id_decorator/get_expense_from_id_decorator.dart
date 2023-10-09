@@ -6,5 +6,5 @@ class GetExpenseFromIdDecorator implements GetExpenseFromIdDatasource {
   GetExpenseFromIdDecorator(this._getExpenseFromIdDatasource);
 
   @override
-  Future<ExpenseEntity> call(int id) async => _getExpenseFromIdDatasource(id);
+  Future<ExpenseEntity> call(String id) async => _getExpenseFromIdDatasource(id);
 }

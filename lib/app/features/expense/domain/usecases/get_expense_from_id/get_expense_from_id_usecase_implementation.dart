@@ -8,7 +8,7 @@ class GetExpenseFromIdUsecaseImplementation implements GetExpenseFromIdUsecase {
   GetExpenseFromIdUsecaseImplementation(this._getExpenseFromIdRepository);
 
   @override
-  Future<ExpenseEntity> call(int id) async {
+  Future<ExpenseEntity> call(String id) async {
     return await _getExpenseFromIdRepository(id);
   }
 }

@@ -6,5 +6,5 @@ class RemoveExpenseFromIdDecorator implements RemoveExpenseFromIdDatasource {
   RemoveExpenseFromIdDecorator(this._removeExpenseFromIdDatasource);
 
   @override
-  Future<bool> call(int id) async => await _removeExpenseFromIdDatasource(id);
+  Future<bool> call(String id) async => await _removeExpenseFromIdDatasource(id);
 }

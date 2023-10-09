@@ -8,7 +8,7 @@ class RemoveExpenseFromIdUsecaseImplementation
   RemoveExpenseFromIdUsecaseImplementation(this._removeExpenseFromIdRepository);
 
   @override
-  Future<bool> call(int id) async {
+  Future<bool> call(String id) async {
     return await _removeExpenseFromIdRepository(id);
   }
 }

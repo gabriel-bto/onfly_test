@@ -1,5 +1,5 @@
 class ExpenseEntity {
-  final int id;
+  final String id;
   final String description;
   final DateTime expenseDate;
   final double amount;

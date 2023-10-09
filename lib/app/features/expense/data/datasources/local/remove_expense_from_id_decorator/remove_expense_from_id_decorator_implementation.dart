@@ -9,7 +9,7 @@ class RemoveExpenseFromIdDecoratorImplementation
   final _sqliteConnectionFactory = SqliteConnectionFactory();
 
   @override
-  Future<bool> call(int id) async {
+  Future<bool> call(String id) async {
     try {
       await super(id);
       await _removeInLocal(id);
@@ -20,7 +20,7 @@ class RemoveExpenseFromIdDecoratorImplementation
     }
   }
 
-  Future<bool> _removeInLocal(int id) async {
+  Future<bool> _removeInLocal(String id) async {
     final connection = await _sqliteConnectionFactory.openConnection();
 
     await connection.rawDelete('delete from expense where id = ?', [id]);

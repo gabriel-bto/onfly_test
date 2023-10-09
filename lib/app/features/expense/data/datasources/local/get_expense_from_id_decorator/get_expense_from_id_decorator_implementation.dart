@@ -14,7 +14,7 @@ class GetExpenseFromIdDecoratorImplementation
   final _sqliteConnectionFactory = SqliteConnectionFactory();
 
   @override
-  Future<ExpenseEntity> call(int id) async {
+  Future<ExpenseEntity> call(String id) async {
     try {
       return await super(id);
     } catch (_) {
@@ -22,7 +22,7 @@ class GetExpenseFromIdDecoratorImplementation
     }
   }
 
-  Future<ExpenseEntity> _getInLocal(int id) async {
+  Future<ExpenseEntity> _getInLocal(String id) async {
     final connection = await _sqliteConnectionFactory.openConnection();
 
     final response = await connection.rawQuery('''

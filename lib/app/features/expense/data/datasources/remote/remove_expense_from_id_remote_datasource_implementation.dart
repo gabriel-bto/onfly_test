@@ -9,7 +9,7 @@ class RemoveExpenseRemoteDatasourceImplementation
   RemoveExpenseRemoteDatasourceImplementation(this._httpClientImplementation);
 
   @override
-  Future<bool> call(int id) async {
+  Future<bool> call(String id) async {
     await _httpClientImplementation.get(ApiUtils.getRouteRemoveExpense(id));
 
     return true;

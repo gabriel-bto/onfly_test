@@ -10,12 +10,12 @@ class GetAllExpensesRepositoryImplementation
   Future<List<ExpenseEntity>> call() async {
     return [
       ExpenseEntity(
-        id: 1,
+        id: "zdf12",
         description: 'Despesa 123',
         expenseDate: DateTime.now(),
         amount: 12.50,
-        latitude: "80.121212",
-        longitude: "40.232323",
+        latitude: '80.121212',
+        longitude: '40.232323',
       ),
     ];
   }

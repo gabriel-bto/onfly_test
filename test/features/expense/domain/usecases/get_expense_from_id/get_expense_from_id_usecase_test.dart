@@ -8,19 +8,19 @@ class GetExpenseFromIdRepositoryImplementation
     implements GetExpenseFromIdRepository {
   final List<ExpenseEntity> expenses = [
     ExpenseEntity(
-      id: 1,
+      id: 'zdf2',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
       amount: 12.50,
-      latitude: "80.121212",
-      longitude: "40.232323",
+      latitude: '80.121212',
+      longitude: '40.232323',
     ),
   ];
 
   @override
-  Future<ExpenseEntity> call(int id) async {
-    if (id < 0) {
-      throw ArgumentError('Id não pode ser um valor negativo');
+  Future<ExpenseEntity> call(String id) async {
+    if (id.isEmpty) {
+      throw ArgumentError('Id não pode ser um valor vazio');
     }
 
     return expenses.singleWhere(
@@ -36,7 +36,7 @@ void main() {
       GetExpenseFromIdRepositoryImplementation(),
     );
 
-    expect(() async => await useCase(-1), throwsA(isA<ArgumentError>()));
+    expect(() async => await useCase(''), throwsA(isA<ArgumentError>()));
   });
 
   test('should throw Exception', () {
@@ -44,7 +44,7 @@ void main() {
       GetExpenseFromIdRepositoryImplementation(),
     );
 
-    expect(() async => await useCase(0), throwsA(isA<Exception>()));
+    expect(() async => await useCase('404'), throwsA(isA<Exception>()));
   });
 
   test('should get expense entity for a given id', () async {
@@ -52,7 +52,7 @@ void main() {
       GetExpenseFromIdRepositoryImplementation(),
     );
 
-    final result = await useCase(1);
+    final result = await useCase('zdf2');
 
     expect(result, isA<ExpenseEntity>());
   });
