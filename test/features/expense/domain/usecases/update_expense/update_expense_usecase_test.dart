@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
-import 'package:onfly_test/features/expense/domain/repositories/update_expense_repository.dart';
-import 'package:onfly_test/features/expense/domain/usecases/update_expense/update_expense_usecase.dart';
-import 'package:onfly_test/features/expense/domain/usecases/update_expense/update_expense_usecase_implementation.dart';
+import 'package:onfly_test/app/features/expense/domain/entities/expense_entity.dart';
+import 'package:onfly_test/app/features/expense/domain/repositories/update_expense_repository.dart';
+import 'package:onfly_test/app/features/expense/domain/usecases/update_expense/update_expense_usecase.dart';
+import 'package:onfly_test/app/features/expense/domain/usecases/update_expense/update_expense_usecase_implementation.dart';
 
 class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   @override

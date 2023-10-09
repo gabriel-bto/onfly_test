@@ -1,8 +1,8 @@
-import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
-import 'package:onfly_test/features/expense/domain/repositories/get_expense_from_id_repository.dart';
+import 'package:onfly_test/app/features/expense/domain/entities/expense_entity.dart';
+import 'package:onfly_test/app/features/expense/domain/repositories/get_expense_from_id_repository.dart';
+import 'package:onfly_test/app/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase.dart';
+import 'package:onfly_test/app/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase_implementation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly_test/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase.dart';
-import 'package:onfly_test/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase_implementation.dart';
 
 class GetExpenseFromIdRepositoryImplementation
     implements GetExpenseFromIdRepository {
