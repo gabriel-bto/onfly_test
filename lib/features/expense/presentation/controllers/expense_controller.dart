@@ -15,7 +15,6 @@ class ExpenseController {
   final GetExpenseFromIdUsecase _getExpenseFromIdUsecase;
   final RemoveExpenseFromIdUsecase _removeExpenseFromIdUsecase;
   final UpdateExpenseUsecase _updateExpenseUsecase;
-  final SyncExpenseDatasourceImplementation _syncExpenseDatasourceImplementation;
 
   ExpenseController({
     required CreateExpenseUsecase createExpenseUsecase,
@@ -23,13 +22,13 @@ class ExpenseController {
     required GetExpenseFromIdUsecase getExpenseFromIdUsecase,
     required RemoveExpenseFromIdUsecase removeExpenseFromIdUsecase,
     required UpdateExpenseUsecase updateExpenseUsecase,
-    required SyncExpenseDatasourceImplementation syncExpenseDatasourceImplementation
+    required SyncExpenseDatasourceImplementation
+        syncExpenseDatasourceImplementation,
   })  : _createExpenseUsecase = createExpenseUsecase,
         _getAllExpensesUsecase = getAllExpensesUsecase,
         _getExpenseFromIdUsecase = getExpenseFromIdUsecase,
         _removeExpenseFromIdUsecase = removeExpenseFromIdUsecase,
-        _updateExpenseUsecase = updateExpenseUsecase,
-        _syncExpenseDatasourceImplementation = syncExpenseDatasourceImplementation;
+        _updateExpenseUsecase = updateExpenseUsecase;
 
   ValueNotifier<List<ExpenseModel>> expanses = ValueNotifier([]);
   double totalExpanses = 0.0;

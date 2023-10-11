@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:onfly_test/features/expense/data/datasources/sync_decorator/sync_expense_datasource_implementation.dart';
+import 'package:onfly_test/features/expense/presentation/controllers/sync_controller.dart';
 import '../../features/expense/data/datasources/create_expense_datasource.dart';
 import '../../features/expense/data/datasources/get_all_expenses_datasource.dart';
 import '../../features/expense/data/datasources/get_expense_from_id_datasource.dart';
@@ -75,8 +76,8 @@ class Inject {
       () => UpdateExpenseDecoratorImplementation(
         UpdateExpenseRemoteDatasourceImplementation(getIt()),
       ),
-    );    
-    
+    );
+
     getIt.registerLazySingleton<SyncExpenseDatasourceImplementation>(
       () => SyncExpenseDatasourceImplementation(getIt()),
     );
@@ -134,5 +135,7 @@ class Inject {
         syncExpenseDatasourceImplementation: getIt(),
       ),
     );
+
+    getIt.registerSingleton<SyncController>(SyncController(getIt()));
   }
 }
