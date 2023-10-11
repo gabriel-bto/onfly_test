@@ -8,7 +8,7 @@ class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   UpdateExpenseRepositoryImplementation(this._expenseDatasource);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     try {
       if (expenseEntity.id == null) {
         throw ArgumentError('ID can\'\t be null');

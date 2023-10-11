@@ -6,6 +6,6 @@ class CreateExpenseLocalDecorator implements CreateExpenseDatasource {
   CreateExpenseLocalDecorator(this._createExpensesDatasource);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async =>
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async =>
       await _createExpensesDatasource(expenseEntity);
 }

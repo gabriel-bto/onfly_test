@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:onfly_test/core/ui/theme_extension.dart';
 import 'package:onfly_test/features/expense/data/models/expense_model_extension.dart';
@@ -12,22 +11,37 @@ import 'package:onfly_test/features/expense/presentation/Ui/widgets/picture_cont
 import '../../controllers/expense_controller.dart';
 
 class AddEditExpensePage extends StatefulWidget {
-  final ExpenseEntity? expanse;
-
-  const AddEditExpensePage({super.key, this.expanse});
+  final ExpenseEntity? expense;
+  final ExpenseController controller;
+  const AddEditExpensePage({super.key, this.expense, required this.controller});
 
   @override
   State<AddEditExpensePage> createState() => _AddEditExpensePageState();
 }
 
 class _AddEditExpensePageState extends State<AddEditExpensePage> {
-  final controller = GetIt.I.get<ExpenseController>();
+  late ExpenseController controller;
 
   final formKey = GlobalKey<FormState>();
   final descriptionEC = TextEditingController();
   final expenseDateEC = TextEditingController();
   final amountEC = TextEditingController();
+  var formatter = DateFormat('dd/MM/yyyy');
+
   DateTime? expanseDate;
+
+  @override
+  void initState() {
+    controller = widget.controller;
+
+    if (widget.expense != null) {
+      descriptionEC.text = widget.expense!.description;
+      expenseDateEC.text = formatter.format(widget.expense!.expenseDate);
+      amountEC.text = widget.expense!.amount.toString();
+    }
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -38,7 +52,6 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
   }
 
   Future<void> selectDatePicker() async {
-    var formatter = DateFormat('dd/MM/yyyy');
     final now = DateTime.now();
 
     DateTime? result = await showDatePicker(
@@ -63,8 +76,9 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: AddExpenseButton(
-        label: 'Adicionar',
-        onPressed: () async => widget.expanse != null
+        label: widget.expense != null ? 'Alterar Despesa' : 'Adicionar Despesa',
+        icon: widget.expense != null ? const Icon(Icons.edit) : null,
+        onPressed: () async => widget.expense != null
             ? await updateExpense()
             : await createExpense(),
       ),
@@ -72,7 +86,8 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
       backgroundColor: context.scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-            widget.expanse != null ? 'Alterar Despesa' : 'Adicionar Despesa'),
+          widget.expense != null ? 'Alterar Despesa' : 'Adicionar Despesa',
+        ),
       ),
       body: ListView(
         children: [
@@ -151,13 +166,13 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
 
   Future<void> updateExpense() async {
     if (formKey.currentState!.validate()) {
-      final updateExpense = widget.expanse!.copyWith(
+      final updateExpense = widget.expense!.copyWith(
         description: descriptionEC.text,
         expenseDate: expanseDate,
         amount: double.parse(amountEC.text.replaceAll(',', '.')),
       );
 
-      await controller.createExpenseUsecase(updateExpense);
+      await controller.updateExpenseUsecase(updateExpense);
 
       if (context.mounted) Navigator.pop(context);
     }
@@ -167,39 +182,41 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
     if (formKey.currentState!.validate()) {
       String latitude = '', longitude = '';
 
-      var permission = await Geolocator.checkPermission();
+      try {
+        var permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.deniedForever) {
-        latitude = '';
-        longitude = '';
-      }
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-
-        if (permission == LocationPermission.denied) {
+        if (permission == LocationPermission.deniedForever) {
           latitude = '';
           longitude = '';
         }
-      } else {
-        final position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.medium);
 
-        latitude = position.latitude.toString();
-        longitude = position.longitude.toString();
+        if (permission == LocationPermission.denied) {
+          permission = await Geolocator.requestPermission();
+
+          if (permission == LocationPermission.denied) {
+            latitude = '';
+            longitude = '';
+          }
+        } else {
+          final position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.medium);
+
+          latitude = position.latitude.toString();
+          longitude = position.longitude.toString();
+        }
+      } finally {
+        final expense = ExpenseEntity(
+          description: descriptionEC.text,
+          expenseDate: expanseDate!,
+          amount: double.parse(amountEC.text.replaceAll(',', '.')),
+          latitude: latitude,
+          longitude: longitude,
+        );
+
+        await controller.createExpenseUsecase(expense);
+
+        if (context.mounted) Navigator.pop(context);
       }
-
-      final expense = ExpenseEntity(
-        description: descriptionEC.text,
-        expenseDate: expanseDate!,
-        amount: double.parse(amountEC.text.replaceAll(',', '.')),
-        latitude: latitude,
-        longitude: longitude,
-      );
-
-      await controller.createExpenseUsecase(expense);
-      
-      if (context.mounted) Navigator.pop(context);
     }
   }
 }

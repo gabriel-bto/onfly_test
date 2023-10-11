@@ -28,7 +28,7 @@ class DB {
 
   String get _expense => '''
     CREATE TABLE expense (
-      idLocal INT AUTO_INCREMENT PRIMARY KEY,
+      idLocal VARCHAR(50) PRIMARY KEY,
       id VARCHAR(50),
       description VARCHAR(500),
       expenseDate DATETIME,

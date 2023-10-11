@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/expense_entity.dart';
 
 extension ExpenseModelExtension on ExpenseEntity {
-  static ExpenseEntity fromJson(Map json) {
+  static ExpenseEntity fromJson(Map<String, Object?> json) {
     return ExpenseEntity(
-      id: json['id'] ?? '',
-      description: json['description'] ?? '',
-      expenseDate: DateTime.tryParse(json['expense_date']) ?? DateTime.now(),
-      amount: json['amount'] ?? 0,
-      latitude: json['latitude'] ?? '',
-      longitude: json['longitude'] ?? '',
+      id: json['id'] as String?,
+      description: json['description'] as String? ?? '',
+      expenseDate: DateTime.tryParse(json['expense_date'] as String? ?? '') ??
+          DateTime.now(),
+      amount: json['amount'] as double? ?? 0,
+      latitude: json['latitude'] as String? ?? '',
+      longitude: json['longitude'] as String? ?? '',
     );
   }
 

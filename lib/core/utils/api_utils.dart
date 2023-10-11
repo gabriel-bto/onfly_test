@@ -7,7 +7,7 @@ abstract class ApiUtils {
   static const String login = 'ccObDnaf';
 
   static Map<String, String> get headers => {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Accept': 'application/json',
         'Authorization': token,
       };

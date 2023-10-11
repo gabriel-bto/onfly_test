@@ -136,6 +136,8 @@ class Inject {
       ),
     );
 
-    getIt.registerSingleton<SyncController>(SyncController(getIt()));
+    getIt.registerFactory<SyncController>(
+      () => SyncController(getIt()),
+    );
   }
 }

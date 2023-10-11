@@ -7,6 +7,6 @@ class UpdateExpenseDecorator implements UpdateExpenseDatasource {
   UpdateExpenseDecorator(this._updateExpenseDatasource);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async =>
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async =>
       await _updateExpenseDatasource(expenseEntity);
 }

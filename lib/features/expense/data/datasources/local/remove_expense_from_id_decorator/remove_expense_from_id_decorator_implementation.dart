@@ -37,11 +37,9 @@ class RemoveExpenseFromIdDecoratorImplementation
   Future<bool> _removeInLocalCache(String id) async {
     db = await DB.istance.database;
 
-    await db.update(
-      'expense',
-      {'isRemove': 1},
-      where: 'id = ?',
-      whereArgs: [id],
+    await db.rawUpdate(
+      'UPDATE expense SET isRemove = 1 WHERE idLocal = ?',
+      [id],
     );
 
     return true;

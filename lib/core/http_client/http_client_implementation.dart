@@ -1,21 +1,21 @@
 import '../utils/api_utils.dart';
 import 'http_client.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import 'http_response_model.dart';
 
 class HttpClientImplementation implements HttpClient {
-  final client = http.Client();
+  final client = Dio(BaseOptions(
+    baseUrl: ApiUtils.baseURL,
+    headers: ApiUtils.headers,
+  ));
 
   @override
   Future<HttpResponseModel> get<T>(String path) async {
-    final response = await client.get(
-      Uri.parse(path),
-      headers: ApiUtils.headers,
-    );
+    final response = await client.get(path);
 
     return HttpResponseModel(
-      data: response.body,
+      data: response.data,
       statusCode: response.statusCode,
     );
   }
@@ -26,12 +26,12 @@ class HttpClientImplementation implements HttpClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     final response = await client.post(
-      Uri.parse(path),
-      headers: ApiUtils.headers,
+      path,
+      queryParameters: queryParameters,
     );
 
     return HttpResponseModel(
-      data: response.body,
+      data: response.data,
       statusCode: response.statusCode,
     );
   }
@@ -42,25 +42,22 @@ class HttpClientImplementation implements HttpClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     final response = await client.patch(
-      Uri.parse(path),
-      headers: ApiUtils.headers,
+      path,
+      queryParameters: queryParameters,
     );
-    
+
     return HttpResponseModel(
-      data: response.body,
+      data: response.data,
       statusCode: response.statusCode,
     );
   }
 
   @override
   Future<HttpResponseModel> delete<T>(String path) async {
-    final response = await client.delete(
-      Uri.parse(path),
-      headers: ApiUtils.headers,
-    );
-    
+    final response = await client.delete(path);
+
     return HttpResponseModel(
-      data: response.body,
+      data: response.data,
       statusCode: response.statusCode,
     );
   }

@@ -11,46 +11,51 @@ class CreateExpenseLocalDecoratorImplementation
   late Database db;
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     try {
-      await super(expenseEntity);
-      await _createInLocal(expenseEntity);
-      return true;
-    } catch (_) {
-      return _createInLocalWithCache(expenseEntity);
+      final newExpense = await super(expenseEntity);
+      return await _createInLocal(newExpense);
+    } on Exception {
+      return await _createInLocalWithCache(expenseEntity);
     }
   }
 
-  Future<bool> _createInLocal(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> _createInLocal(ExpenseEntity expenseEntity) async {
     db = await DB.istance.database;
 
-    final result = await db.rawInsert(
-      '''INSERT INTO expense(description, expenseDate, amount, latitude, longitude) 
-      VALUES(?, ?, ?, ?, ?)''',
+    await db.rawInsert(
+      '''INSERT INTO expense(id, description, expenseDate, amount, latitude, longitude) 
+      VALUES(?, ?, ?, ?, ?, ?)''',
       [
+        expenseEntity.id,
         expenseEntity.description,
-        expenseEntity.expenseDate.toIso8601String(),
+        expenseEntity.expenseDate.toUtc(),
         expenseEntity.amount,
         expenseEntity.latitude,
         expenseEntity.longitude,
       ],
     );
 
-    return result > 0;
+    return expenseEntity;
   }
 
-  Future<bool> _createInLocalWithCache(ExpenseEntity expenseEntity) async {
-    await _createInLocal(expenseEntity);
-
+  Future<ExpenseEntity> _createInLocalWithCache(ExpenseEntity expenseEntity) async {
     db = await DB.istance.database;
 
-    final result = await db.update(
-      'expense',
-      {'isCreate': 1},
-      where: 'id = ?',
-      whereArgs: [expenseEntity.id],
+    await db.rawInsert(
+      '''INSERT INTO expense(idLocal, description, expenseDate, amount, latitude, longitude, isCreate) 
+      VALUES(?, ?, ?, ?, ?, ?, ?)''',
+      [
+        DateTime.now().millisecondsSinceEpoch.toString(),
+        expenseEntity.description,
+        expenseEntity.expenseDate.toUtc().toString(),
+        expenseEntity.amount,
+        expenseEntity.latitude,
+        expenseEntity.longitude,
+        1,
+      ],
     );
 
-    return result > 0;
+    return expenseEntity;
   }
 }

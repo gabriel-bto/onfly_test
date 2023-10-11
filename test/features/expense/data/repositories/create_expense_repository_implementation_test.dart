@@ -4,10 +4,10 @@ import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart'
 
 class CreateExpenseRepositoryImplementation implements CreateExpenseDatasource {
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     if (expenseEntity.id == null) throw Exception('not found');
 
-    return true;
+    return expenseEntity;
   }
 
   void main() {

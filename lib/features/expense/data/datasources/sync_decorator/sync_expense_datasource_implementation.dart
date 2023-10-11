@@ -16,13 +16,22 @@ class SyncExpenseDatasourceImplementation implements SyncExpenseDatasource {
   @override
   Future<void> call() async {
     db = await DB.istance.database;
-    final result = await db.query('expense');
-    final listExpenses = result.map((json) {
+    final result = await db.rawQuery('''
+      SELECT * FROM expense 
+      WHERE (isCreate = 1 OR isRemove = 1 OR isUpdate = 1)
+    ''');
+
+    final listExpenses = result.map((dbResult) {
+      Map<String, Object?> json = {};
+
+      json.addEntries(dbResult.entries);
+
       final expense = ExpenseModelExtension.fromJson(json);
       return ExpenseModel(
-        isCreate: json['isCreate'] as bool,
-        isRemove: json['isRemove'] as bool,
-        isUpdate: json['isUpdate'] as bool,
+        id: json['idLocal'].toString(),
+        isCreate: (json['isCreate'] == 1),
+        isRemove: (json['isRemove'] == 1),
+        isUpdate: (json['isUpdate'] == 1),
         description: expense.description,
         expenseDate: expense.expenseDate,
         amount: expense.amount,
@@ -37,6 +46,13 @@ class SyncExpenseDatasourceImplementation implements SyncExpenseDatasource {
           ApiUtils.routeCreateExpense,
           queryParameters: expense.toJson(),
         );
+
+        await db.update(
+          'expense',
+          {'isCreate': 0},
+          where: 'idLocal = ?',
+          whereArgs: [expense.id],
+        );
       }
 
       if (expense.isUpdate) {
@@ -44,11 +60,24 @@ class SyncExpenseDatasourceImplementation implements SyncExpenseDatasource {
           ApiUtils.getRouteUpdateExpense(expense.id!),
           queryParameters: expense.toJson(),
         );
+
+        await db.update(
+          'expense',
+          {'isUpdate': 0},
+          where: 'idLocal = ?',
+          whereArgs: [expense.id],
+        );
       }
 
       if (expense.isRemove) {
-        await _httpClientImplementation.get(
+        await _httpClientImplementation.delete(
           ApiUtils.getRouteRemoveExpense(expense.id!),
+        );
+
+        await db.delete(
+          'expense',
+          where: 'id = ?',
+          whereArgs: [expense.id],
         );
       }
     });

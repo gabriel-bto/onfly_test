@@ -10,47 +10,51 @@ class UpdateExpenseDecoratorImplementation extends UpdateExpenseDecorator {
   late Database db;
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     try {
-      await super(expenseEntity);
-      await _updateInLocal(expenseEntity);
-      return true;
+      var result = await super(expenseEntity);
+      return await _updateInLocal(result);
     } catch (_) {
-      await _updateInLocalCache(expenseEntity);
-      return true;
+      return await _updateInLocalCache(expenseEntity);
     }
   }
 
-  Future<bool> _updateInLocal(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> _updateInLocal(ExpenseEntity expenseEntity) async {
     db = await DB.istance.database;
 
     await db.rawUpdate('''
       UPDATE expense
-      SET description = ?, expenseDate = ?, description = ?, expenseDate = ?, expenseDate = ? WHERE idLocal = ?
+      SET description = ?, expenseDate = ?, description = ?, expenseDate = ?, expenseDate = ? WHERE id = ?
     ''', [
       expenseEntity.description,
       expenseEntity.expenseDate.toIso8601String(),
       expenseEntity.amount,
       expenseEntity.latitude,
       expenseEntity.longitude,
-      expenseEntity.id,
+      int.tryParse(expenseEntity.id ?? ''),
     ]);
 
-    return true;
+    return expenseEntity;
   }
 
-  Future<bool> _updateInLocalCache(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> _updateInLocalCache(ExpenseEntity expenseEntity) async {
     await _updateInLocal(expenseEntity);
 
     db = await DB.istance.database;
 
-    await db.update(
-      'expense',
-      {'isUpdate': 1},
-      where: 'id = ?',
-      whereArgs: [expenseEntity.id],
-    );
+    await db.rawUpdate('''
+      UPDATE expense
+      SET isUpdate = ?, description = ?, expenseDate = ?, amount = ?, latitude = ?, longitude = ? WHERE idLocal = ?
+    ''', [
+      1,
+      expenseEntity.description,
+      expenseEntity.expenseDate.toUtc().toString(),
+      expenseEntity.amount,
+      expenseEntity.latitude,
+      expenseEntity.longitude,
+      int.tryParse(expenseEntity.id ?? ''),
+    ]);
 
-    return true;
+    return expenseEntity;
   }
 }

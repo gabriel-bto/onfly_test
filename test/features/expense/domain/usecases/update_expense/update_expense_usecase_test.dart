@@ -6,8 +6,8 @@ import 'package:onfly_test/features/expense/domain/usecases/update_expense/updat
 
 class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
-    return true;
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
+    return expenseEntity;
   }
 }
 

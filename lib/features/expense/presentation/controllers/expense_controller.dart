@@ -9,7 +9,7 @@ import '../../domain/usecases/get_expense_from_id/get_expense_from_id_usecase.da
 import '../../domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase.dart';
 import '../../domain/usecases/update_expense/update_expense_usecase.dart';
 
-class ExpenseController {
+class ExpenseController extends ChangeNotifier {
   final CreateExpenseUsecase _createExpenseUsecase;
   final GetAllExpensesUsecase _getAllExpensesUsecase;
   final GetExpenseFromIdUsecase _getExpenseFromIdUsecase;
@@ -30,34 +30,40 @@ class ExpenseController {
         _removeExpenseFromIdUsecase = removeExpenseFromIdUsecase,
         _updateExpenseUsecase = updateExpenseUsecase;
 
-  ValueNotifier<List<ExpenseModel>> expanses = ValueNotifier([]);
-  double totalExpanses = 0.0;
+  ValueNotifier<List<ExpenseModel>> expenses = ValueNotifier([]);
+  ValueNotifier<String> totalExpenses = ValueNotifier('');
 
-  String get stringTotalExpense =>
-      'R\$ ${totalExpanses.toStringAsFixed(2)}'.replaceAll('.', ',');
-
-  Future<bool> createExpenseUsecase(ExpenseEntity expenseEntity) async {
-    return _createExpenseUsecase(expenseEntity);
+  Future<ExpenseEntity> createExpenseUsecase(
+      ExpenseEntity expenseEntity) async {
+    return await _createExpenseUsecase(expenseEntity);
   }
 
   Future<void> getAllExpensesUsecase() async {
-    expanses.value = await _getAllExpensesUsecase();
-    totalExpanses = 0.0;
-    totalExpanses = expanses.value.fold<double>(
-      totalExpanses,
+    var expenseList = await _getAllExpensesUsecase();
+
+    final total = expenses.value.fold<double>(
+      0.0,
       (previousValue, expense) => previousValue + expense.amount,
     );
+
+    expenses.value = expenseList;
+    totalExpenses.value = total.toString();
   }
 
   Future<ExpenseEntity> getExpenseFromIdUsecase(String id) async {
-    return _getExpenseFromIdUsecase(id);
+    final expense = await _getExpenseFromIdUsecase(id);
+
+    return expense;
   }
 
   Future<bool> removeExpenseFromIdUsecase(String id) async {
-    return _removeExpenseFromIdUsecase(id);
+    final isRemoved = await _removeExpenseFromIdUsecase(id);
+
+    return isRemoved;
   }
 
-  Future<bool> updateExpenseUsecase(ExpenseEntity expenseEntity) async {
-    return _updateExpenseUsecase(expenseEntity);
+  Future<ExpenseEntity> updateExpenseUsecase(
+      ExpenseEntity expenseEntity) async {
+    return await _updateExpenseUsecase(expenseEntity);
   }
 }

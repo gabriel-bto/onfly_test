@@ -7,6 +7,7 @@ class PictureContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 220,
+      width: double.maxFinite,
       decoration: BoxDecoration(
         color: const Color(0xFFAAAAAA).withAlpha(30),
         borderRadius: const BorderRadius.all(Radius.circular(5)),

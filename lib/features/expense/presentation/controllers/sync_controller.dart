@@ -1,35 +1,34 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/datasources/sync_decorator/sync_expense_datasource_implementation.dart';
 
-class SyncController extends ChangeNotifier {
+class SyncController extends WidgetsBindingObserver {
   final SyncExpenseDatasourceImplementation
       _syncExpenseDatasourceImplementation;
 
-  bool isOnline = false;
-
   SyncController(this._syncExpenseDatasourceImplementation) {
-    init();
-    addListener(() async {
-      if (!isOnline) return;
-
-      await _syncExpenseDatasourceImplementation();
+    listeningConnectivy = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (!(result == ConnectivityResult.none)) {
+        _syncExpenseDatasourceImplementation();
+      }
     });
   }
 
-  void init() {
-    Timer.periodic(const Duration(seconds: 60), (timer) async {
-      try {
-        final result = await InternetAddress.lookup('google.com');
-        isOnline = result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-      } on Exception {
-        isOnline = false;
-      } finally {
-        notifyListeners();
-      }
-    });
+  late StreamSubscription<ConnectivityResult> listeningConnectivy;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state.index) {
+      case 0:
+        listeningConnectivy.cancel();
+        break;
+    }
+
+    super.didChangeAppLifecycleState(state);
   }
 }

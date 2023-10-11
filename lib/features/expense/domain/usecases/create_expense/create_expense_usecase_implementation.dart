@@ -8,7 +8,7 @@ class CreateExpenseUsecaseImplementation implements CreateExpenseUsecase {
   CreateExpenseUsecaseImplementation(this._createExpenseRepository);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     return await _createExpenseRepository(expenseEntity);
   }
 }

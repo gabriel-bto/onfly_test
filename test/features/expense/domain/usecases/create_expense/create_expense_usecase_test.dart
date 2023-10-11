@@ -6,8 +6,15 @@ import 'package:onfly_test/features/expense/domain/usecases/create_expense/creat
 
 class CreateExpenseRepositoryImplementation implements CreateExpenseRepository {
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
-    return true;
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
+    return ExpenseEntity(
+      id: 'zdf12',
+      description: 'Despesa 123',
+      expenseDate: DateTime.now(),
+      amount: 12.50,
+      latitude: '80.121212',
+      longitude: '40.232323',
+    );
   }
 }
 

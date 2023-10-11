@@ -8,7 +8,7 @@ class UpdateExpenseUsecaseImplementation implements UpdateExpenseUsecase {
   UpdateExpenseUsecaseImplementation(this._updateExpenseRepository);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     return _updateExpenseRepository(expenseEntity);
   }
 }

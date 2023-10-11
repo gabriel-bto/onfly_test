@@ -13,7 +13,7 @@ class CreateExpenseRemoteDatasourceImplementation
   CreateExpenseRemoteDatasourceImplementation(this._httpClientImplementation);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     final result = await _httpClientImplementation.post(
       ApiUtils.routeCreateExpense,
       queryParameters: expenseEntity.toJson(),
@@ -23,6 +23,6 @@ class CreateExpenseRemoteDatasourceImplementation
       throw const HttpException('an error ocourred');
     }
 
-    return result.statusCode == 200;
+    return ExpenseModelExtension.fromJson(result.data);
   }
 }

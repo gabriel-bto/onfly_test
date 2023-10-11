@@ -4,7 +4,7 @@ import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart'
 
 class UpdateExpenseRepositoryImplementation implements UpdateExpenseDatasource {
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     throw Exception('Message Test');
   }
 }

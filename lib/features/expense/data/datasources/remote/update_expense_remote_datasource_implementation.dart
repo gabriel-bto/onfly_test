@@ -11,7 +11,7 @@ class UpdateExpenseRemoteDatasourceImplementation
   UpdateExpenseRemoteDatasourceImplementation(this._httpClientImplementation);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> call(ExpenseEntity expenseEntity) async {
     final result = await _httpClientImplementation.patch(
       ApiUtils.getRouteUpdateExpense(expenseEntity.id!),
       queryParameters: expenseEntity.toJson(),
@@ -21,6 +21,6 @@ class UpdateExpenseRemoteDatasourceImplementation
       throw Exception('ocourred an error');
     }
 
-    return result.statusCode == 200;
+    return ExpenseModelExtension.fromJson(result.data);
   }
 }

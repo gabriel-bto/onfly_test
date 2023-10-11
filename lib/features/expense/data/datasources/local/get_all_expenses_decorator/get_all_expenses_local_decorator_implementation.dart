@@ -31,12 +31,16 @@ class GetAllExpensesLocalDecoratorImplementation
       whereArgs: [0],
     );
 
-    return result.map((json) {
+    return result.map((dbResult) {
+      Map<String, Object?> json = {};
+
+      json.addEntries(dbResult.entries);
+
       final expense = ExpenseModelExtension.fromJson(json);
       return ExpenseModel(
-        isCreate: json['isCreate'] as bool,
-        isRemove: json['isRemove'] as bool,
-        isUpdate: json['isUpdate'] as bool,
+        id: json['idLocal'].toString(),
+        isCreate: (json['isCreate'] == 1),
+        isUpdate: (json['isUpdate'] == 1),
         description: expense.description,
         expenseDate: expense.expenseDate,
         amount: expense.amount,
