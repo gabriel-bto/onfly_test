@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:onfly_test/core/database/database.dart';
+import 'package:onfly_test/features/expense/data/datasources/sync_decorator/sync_expense_datasource_implementation.dart';
 import '../../features/expense/data/datasources/create_expense_datasource.dart';
 import '../../features/expense/data/datasources/get_all_expenses_datasource.dart';
 import '../../features/expense/data/datasources/get_expense_from_id_datasource.dart';
@@ -35,8 +35,7 @@ import '../../features/expense/domain/usecases/remove_expense_from_id/remove_exp
 import '../../features/expense/domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase_implementation.dart';
 import '../../features/expense/domain/usecases/update_expense/update_expense_usecase.dart';
 import '../../features/expense/domain/usecases/update_expense/update_expense_usecase_implementation.dart';
-import '../../features/expense/presentaton/controllers/expensive_controller.dart';
-import '../http_client/http_client.dart';
+import '../../features/expense/presentation/controllers/expense_controller.dart';
 import '../http_client/http_client_implementation.dart';
 
 class Inject {
@@ -44,8 +43,8 @@ class Inject {
     GetIt getIt = GetIt.instance;
 
     // core
-    getIt.registerLazySingleton<DB>(() => DB.istance.database);
-    getIt.registerLazySingleton<HttpClient>(() => HttpClientImplementation());
+    getIt.registerLazySingleton<HttpClientImplementation>(
+        () => HttpClientImplementation());
 
     // datasources
     getIt.registerLazySingleton<CreateExpenseDatasource>(
@@ -76,6 +75,10 @@ class Inject {
       () => UpdateExpenseDecoratorImplementation(
         UpdateExpenseRemoteDatasourceImplementation(getIt()),
       ),
+    );    
+    
+    getIt.registerLazySingleton<SyncExpenseDatasourceImplementation>(
+      () => SyncExpenseDatasourceImplementation(getIt()),
     );
 
     // repositories
@@ -121,13 +124,14 @@ class Inject {
     );
 
     // controllers
-    getIt.registerLazySingleton<ExpensiveController>(
-      () => ExpensiveController(
+    getIt.registerFactory<ExpenseController>(
+      () => ExpenseController(
         createExpenseUsecase: getIt(),
         getAllExpensesUsecase: getIt(),
         getExpenseFromIdUsecase: getIt(),
         removeExpenseFromIdUsecase: getIt(),
         updateExpenseUsecase: getIt(),
+        syncExpenseDatasourceImplementation: getIt(),
       ),
     );
   }
