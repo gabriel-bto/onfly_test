@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly_test/app/features/expense/domain/entities/expense_entity.dart';
-import 'package:onfly_test/app/features/expense/domain/repositories/remove_expense_from_id_repository.dart';
-import 'package:onfly_test/app/features/expense/domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase.dart';
-import 'package:onfly_test/app/features/expense/domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase_implementation.dart';
+import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
+import 'package:onfly_test/features/expense/domain/repositories/remove_expense_from_id_repository.dart';
+import 'package:onfly_test/features/expense/domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase.dart';
+import 'package:onfly_test/features/expense/domain/usecases/remove_expense_from_id/remove_expense_from_id_usecase_implementation.dart';
 
 class RemoveExpenseFromIdRepositoryImplementation
     implements RemoveExpenseFromIdRepository {
@@ -20,12 +20,12 @@ class RemoveExpenseFromIdRepositoryImplementation
   @override
   Future<bool> call(String id) async {
     if (id.isEmpty) {
-      throw ArgumentError('Id não pode ser vazio');
+      throw ArgumentError('Id can\'t be empty');
     }
 
     expenses.singleWhere(
       (expanse) => expanse.id == id,
-      orElse: () => throw Exception('Despesa não encontrada'),
+      orElse: () => throw Exception('expense not found'),
     );
 
     return true;

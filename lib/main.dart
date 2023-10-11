@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'app/app_widget.dart';
+import 'package:onfly_test/features/expense/presentaton/Ui/pages/expense_page.dart';
+
+import 'core/inject/inject.dart';
 
 void main() {
-  runApp(const AppWidget());
+  Inject.init();
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: ExpensePage(),
+  ));
 }

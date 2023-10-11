@@ -1,4 +1,6 @@
-import 'package:onfly_test/app/features/expense/data/models/expense_model.dart';
+import 'dart:io';
+
+import 'package:onfly_test/features/expense/data/models/expense_model.dart';
 
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';
@@ -12,11 +14,15 @@ class CreateExpenseRemoteDatasourceImplementation
 
   @override
   Future<bool> call(ExpenseEntity expenseEntity) async {
-    await _httpClientImplementation.post(
+    final result = await _httpClientImplementation.post(
       ApiUtils.routeCreateExpense,
       queryParameters: expenseEntity.toJson(),
     );
 
-    return true;
+    if (result.statusCode != 200) {
+      throw const HttpException('an error ocourred');
+    }
+
+    return result.statusCode == 200;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly_test/app/features/expense/data/models/expense_model.dart';
-import 'package:onfly_test/app/features/expense/domain/entities/expense_entity.dart';
+import 'package:onfly_test/features/expense/data/models/expense_model.dart';
+import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
 
 void main() {
   test('should get a expense entity from given a json', () {
