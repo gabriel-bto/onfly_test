@@ -45,3 +45,20 @@ The Onfly Test includes unit tests and widget tests to ensure code stability. To
 
    ```bash
    flutter test --widget-tests
+
+## Summary Packages Used
+
+* Local Data Persistence: Local storage is managed using the sqflite package for SQLite, allowing data to be stored and accessed locally.
+
+* API Communication: Communication with the API is performed using the Dio package to make HTTP requests for data synchronization with the backend.
+
+* Dependency Injection: Dependency injection is implemented using the get_it package to facilitate the replacement of implementations and code testability.
+
+* File and Directory Handling: The path package is used for efficient manipulation of file and directory paths.
+
+* Location Services: The geolocator package is utilized to access geographic location information, including latitude and longitude.
+
+* Internationalization: Internationalization and date/number formatting are supported using the intl package.
+
+* Connectivity Monitoring: The connectivity_plus package is employed for monitoring network connectivity and detecting connection changes.
+
