@@ -12,8 +12,11 @@ class CreateExpenseRepositoryImplementation implements CreateExpenseRepository {
 }
 
 void main() {
-  test('should create an expense', () async {
-    var newExpense = ExpenseEntity(
+  late ExpenseEntity expense;
+  late CreateExpenseUsecase useCase;
+
+  setUp(() {
+    expense = ExpenseEntity(
       id: 'zdf12',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
@@ -22,11 +25,13 @@ void main() {
       longitude: '40.232323',
     );
 
-    CreateExpenseUsecase useCase = CreateExpenseUsecaseImplementation(
+    useCase = CreateExpenseUsecaseImplementation(
       CreateExpenseRepositoryImplementation(),
     );
+  });
 
-    var result = await useCase(newExpense);
+  test('should create an expense', () async {
+    var result = await useCase(expense);
 
     expect(result, true);
   });

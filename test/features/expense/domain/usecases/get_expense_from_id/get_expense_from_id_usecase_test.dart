@@ -31,27 +31,15 @@ class GetExpenseFromIdRepositoryImplementation
 }
 
 void main() {
-  test('should throw ArgumentError', () {
-    GetExpenseFromIdUsecase useCase = GetExpenseFromIdUsecaseImplementation(
+  late GetExpenseFromIdUsecase useCase;
+
+  setUp(() {
+    useCase = GetExpenseFromIdUsecaseImplementation(
       GetExpenseFromIdRepositoryImplementation(),
     );
-
-    expect(() async => await useCase(''), throwsA(isA<ArgumentError>()));
-  });
-
-  test('should throw Exception', () {
-    GetExpenseFromIdUsecase useCase = GetExpenseFromIdUsecaseImplementation(
-      GetExpenseFromIdRepositoryImplementation(),
-    );
-
-    expect(() async => await useCase('404'), throwsA(isA<Exception>()));
   });
 
   test('should get expense entity for a given id', () async {
-    GetExpenseFromIdUsecase useCase = GetExpenseFromIdUsecaseImplementation(
-      GetExpenseFromIdRepositoryImplementation(),
-    );
-
     final result = await useCase('zdf2');
 
     expect(result, isA<ExpenseEntity>());

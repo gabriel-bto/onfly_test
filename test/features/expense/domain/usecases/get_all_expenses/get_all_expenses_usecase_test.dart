@@ -22,11 +22,15 @@ class GetAllExpensesRepositoryImplementation
 }
 
 void main() {
-  test('should return all expenses', () async {
-    GetAllExpensesUsecase useCase = GetAllExpensesUsecaseImplementation(
+  late GetAllExpensesUsecase useCase;
+
+  setUp(() {
+    useCase = GetAllExpensesUsecaseImplementation(
       GetAllExpensesRepositoryImplementation(),
     );
+  });
 
+  test('should return all expenses', () async {
     final result = await useCase();
 
     expect(result, isA<List<ExpenseEntity>>());

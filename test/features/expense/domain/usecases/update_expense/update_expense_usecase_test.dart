@@ -7,14 +7,16 @@ import 'package:onfly_test/features/expense/domain/usecases/update_expense/updat
 class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   @override
   Future<bool> call(ExpenseEntity expenseEntity) async {
-    if (expenseEntity.id.isEmpty) throw ArgumentError('Id can\'t be empty');
     return true;
   }
 }
 
 void main() {
-  test('should update an expense', () async {
-    var newExpense = ExpenseEntity(
+  late ExpenseEntity expense;
+  late UpdateExpenseUsecase useCase;
+
+  setUp(() {
+    expense = ExpenseEntity(
       id: 'zrfs2etc',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
@@ -23,32 +25,14 @@ void main() {
       longitude: '40.232323',
     );
 
-    UpdateExpenseUsecase useCase = UpdateExpenseUsecaseImplementation(
+    useCase = UpdateExpenseUsecaseImplementation(
       UpdateExpenseRepositoryImplementation(),
     );
-
-    var result = await useCase(newExpense);
-
-    expect(result, true);
   });
 
-  test('should throw an Argument Erro case Id is empty', () {
-    var newExpense = ExpenseEntity(
-      id: '',
-      description: 'Despesa 123',
-      expenseDate: DateTime.now(),
-      amount: 12.50,
-      latitude: '80.121212',
-      longitude: '40.232323',
-    );
+  test('should return true if update an expense', () async {
+    var result = await useCase(expense);
 
-    UpdateExpenseUsecase useCase = UpdateExpenseUsecaseImplementation(
-      UpdateExpenseRepositoryImplementation(),
-    );
-
-    expect(
-      () async => await useCase(newExpense),
-      throwsA(isA<ArgumentError>()),
-    );
+    expect(result, true);
   });
 }

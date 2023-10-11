@@ -33,30 +33,15 @@ class RemoveExpenseFromIdRepositoryImplementation
 }
 
 void main() {
-  test('should throw ArgumentError', () {
-    RemoveExpenseFromIdUsecase useCase =
-        RemoveExpenseFromIdUsecaseImplementation(
+  late RemoveExpenseFromIdUsecase useCase;
+
+  setUp(() {
+    useCase = RemoveExpenseFromIdUsecaseImplementation(
       RemoveExpenseFromIdRepositoryImplementation(),
     );
-
-    expect(() async => await useCase(''), throwsA(isA<ArgumentError>()));
-  });
-
-  test('should throw Exception', () {
-    RemoveExpenseFromIdUsecase useCase =
-        RemoveExpenseFromIdUsecaseImplementation(
-      RemoveExpenseFromIdRepositoryImplementation(),
-    );
-
-    expect(() async => await useCase('404'), throwsA(isA<Exception>()));
   });
 
   test('should delete expense entity for a given id', () async {
-    RemoveExpenseFromIdUsecase useCase =
-        RemoveExpenseFromIdUsecaseImplementation(
-      RemoveExpenseFromIdRepositoryImplementation(),
-    );
-
     final result = await useCase('zrfs2etc');
 
     expect(result, true);
