@@ -1,4 +1,3 @@
-import 'package:onfly_test/features/expense/data/models/expense_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../../../core/database/database.dart';
@@ -25,10 +24,17 @@ class UpdateExpenseDecoratorImplementation extends UpdateExpenseDecorator {
   Future<bool> _updateInLocal(ExpenseEntity expenseEntity) async {
     db = await DB.istance.database;
 
-    await db.update(
-      'expense',
-      expenseEntity.toJson(),
-    );
+    await db.rawUpdate('''
+      UPDATE expense
+      SET description = ?, expenseDate = ?, description = ?, expenseDate = ?, expenseDate = ? WHERE idLocal = ?
+    ''', [
+      expenseEntity.description,
+      expenseEntity.expenseDate.toIso8601String(),
+      expenseEntity.amount,
+      expenseEntity.latitude,
+      expenseEntity.longitude,
+      expenseEntity.id,
+    ]);
 
     return true;
   }

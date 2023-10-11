@@ -1,4 +1,3 @@
-import 'package:onfly_test/features/expense/data/models/expense_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../../../core/database/database.dart';
@@ -25,9 +24,16 @@ class CreateExpenseLocalDecoratorImplementation
   Future<bool> _createInLocal(ExpenseEntity expenseEntity) async {
     db = await DB.istance.database;
 
-    final result = await db.insert(
-      'expense',
-      expenseEntity.toJson(),
+    final result = await db.rawInsert(
+      '''INSERT INTO expense(description, expenseDate, amount, latitude, longitude) 
+      VALUES(?, ?, ?, ?, ?)''',
+      [
+        expenseEntity.description,
+        expenseEntity.expenseDate.toIso8601String(),
+        expenseEntity.amount,
+        expenseEntity.latitude,
+        expenseEntity.longitude,
+      ],
     );
 
     return result > 0;

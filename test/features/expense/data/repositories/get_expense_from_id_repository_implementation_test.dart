@@ -1,16 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:onfly_test/features/expense/data/datasources/Get_expense_from_id_datasource.dart';
 import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
+import 'package:onfly_test/features/expense/presentation/Ui/models/expense_model.dart';
 
 class GetExpenseFromIdRepositoryImplementation
     implements GetExpenseFromIdDatasource {
   @override
-  Future<ExpenseEntity> call(String id) async {
+  Future<ExpenseModel> call(String id) async {
     if (id.isEmpty) {
       throw Exception('Message Test');
     }
 
-    return ExpenseEntity(
+    return ExpenseModel(
       amount: 10,
       description: 'a description',
       expenseDate: DateTime.now(),

@@ -1,5 +1,5 @@
-import '../../domain/entities/expense_entity.dart';
+import '../../presentation/Ui/models/expense_model.dart';
 
 abstract class GetExpenseFromIdDatasource {
-  Future<ExpenseEntity> call(String id);
+  Future<ExpenseModel> call(String id);
 }

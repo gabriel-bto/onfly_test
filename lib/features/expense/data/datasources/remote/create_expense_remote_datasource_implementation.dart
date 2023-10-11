@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:onfly_test/features/expense/data/models/expense_model.dart';
+import 'package:onfly_test/features/expense/data/models/expense_model_extension.dart';
 
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';

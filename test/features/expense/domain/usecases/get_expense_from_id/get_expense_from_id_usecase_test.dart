@@ -3,11 +3,12 @@ import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart'
 import 'package:onfly_test/features/expense/domain/repositories/get_expense_from_id_repository.dart';
 import 'package:onfly_test/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase.dart';
 import 'package:onfly_test/features/expense/domain/usecases/get_expense_from_id/get_expense_from_id_usecase_implementation.dart';
+import 'package:onfly_test/features/expense/presentation/Ui/models/expense_model.dart';
 
 class GetExpenseFromIdRepositoryImplementation
     implements GetExpenseFromIdRepository {
-  final List<ExpenseEntity> expenses = [
-    ExpenseEntity(
+  final List<ExpenseModel> expenses = [
+    ExpenseModel(
       id: 'zdf2',
       description: 'Despesa 123',
       expenseDate: DateTime.now(),
@@ -18,7 +19,7 @@ class GetExpenseFromIdRepositoryImplementation
   ];
 
   @override
-  Future<ExpenseEntity> call(String id) async {
+  Future<ExpenseModel> call(String id) async {
     if (id.isEmpty) {
       throw ArgumentError('id can\t be empty');
     }

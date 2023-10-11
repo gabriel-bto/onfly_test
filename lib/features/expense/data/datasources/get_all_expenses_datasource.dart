@@ -1,5 +1,5 @@
-import '../../domain/entities/expense_entity.dart';
+import '../../presentation/Ui/models/expense_model.dart';
 
 abstract class GetAllExpensesDatasource {
-  Future<List<ExpenseEntity>> call();
+  Future<List<ExpenseModel>> call();
 }

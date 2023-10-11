@@ -1,5 +1,5 @@
-import '../entities/expense_entity.dart';
+import '../../presentation/Ui/models/expense_model.dart';
 
 abstract class GetAllExpensesRepository {
-  Future<List<ExpenseEntity>> call();
+  Future<List<ExpenseModel>> call();
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly_test/features/expense/data/models/expense_model.dart';
+import 'package:onfly_test/features/expense/data/models/expense_model_extension.dart';
 import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart';
 
 void main() {
@@ -13,7 +13,7 @@ void main() {
       'longitude': '40.232323'
     };
 
-    expect(ExpenseModel.fromJson(json), isA<ExpenseEntity>());
+    expect(ExpenseModelExtension.fromJson(json), isA<ExpenseEntity>());
   });
 
   test('should get a json from given a expense entity', () {

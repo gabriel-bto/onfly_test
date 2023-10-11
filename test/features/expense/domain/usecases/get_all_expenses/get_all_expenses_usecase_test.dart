@@ -3,13 +3,14 @@ import 'package:onfly_test/features/expense/domain/entities/expense_entity.dart'
 import 'package:onfly_test/features/expense/domain/repositories/get_all_expenses_repository.dart';
 import 'package:onfly_test/features/expense/domain/usecases/get_all_expenses/get_all_expenses_usecase.dart';
 import 'package:onfly_test/features/expense/domain/usecases/get_all_expenses/get_all_expenses_usecase_implementation.dart';
+import 'package:onfly_test/features/expense/presentation/Ui/models/expense_model.dart';
 
 class GetAllExpensesRepositoryImplementation
     implements GetAllExpensesRepository {
   @override
-  Future<List<ExpenseEntity>> call() async {
+  Future<List<ExpenseModel>> call() async {
     return [
-      ExpenseEntity(
+      ExpenseModel(
         id: 'zdf12',
         description: 'Despesa 123',
         expenseDate: DateTime.now(),

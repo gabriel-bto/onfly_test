@@ -1,4 +1,4 @@
-import '../../models/expense_model.dart';
+import '../../models/expense_model_extension.dart';
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';
 import '../../../domain/entities/expense_entity.dart';

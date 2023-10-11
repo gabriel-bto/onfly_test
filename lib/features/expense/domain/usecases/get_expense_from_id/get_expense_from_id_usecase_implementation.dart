@@ -1,4 +1,4 @@
-import '../../entities/expense_entity.dart';
+import '../../../presentation/Ui/models/expense_model.dart';
 import '../../repositories/get_expense_from_id_repository.dart';
 import 'get_expense_from_id_usecase.dart';
 
@@ -8,7 +8,7 @@ class GetExpenseFromIdUsecaseImplementation implements GetExpenseFromIdUsecase {
   GetExpenseFromIdUsecaseImplementation(this._getExpenseFromIdRepository);
 
   @override
-  Future<ExpenseEntity> call(String id) async {
+  Future<ExpenseModel> call(String id) async {
     return await _getExpenseFromIdRepository(id);
   }
 }

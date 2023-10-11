@@ -3,8 +3,8 @@ import 'dart:io';
 
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';
-import '../../../domain/entities/expense_entity.dart';
-import '../../models/expense_model.dart';
+import '../../../presentation/Ui/models/expense_model.dart';
+import '../../models/expense_model_extension.dart';
 import '../get_expense_from_id_datasource.dart';
 
 class GetExpenseFromIdRemoteDatasourceImplementation
@@ -16,7 +16,7 @@ class GetExpenseFromIdRemoteDatasourceImplementation
   );
 
   @override
-  Future<ExpenseEntity> call(String id) async {
+  Future<ExpenseModel> call(String id) async {
     var result = await _httpClientImplementation.get(
       ApiUtils.getRouteGetExpense(id),
     );
@@ -27,6 +27,15 @@ class GetExpenseFromIdRemoteDatasourceImplementation
 
     var json = jsonDecode(result.data);
 
-    return ExpenseModel.fromJson(json['items']);
+    return json.map((json) {
+      final expense = ExpenseModelExtension.fromJson(json);
+      return ExpenseModel(
+        description: expense.description,
+        expenseDate: expense.expenseDate,
+        amount: expense.amount,
+        latitude: expense.latitude,
+        longitude: expense.longitude,
+      );
+    });
   }
 }

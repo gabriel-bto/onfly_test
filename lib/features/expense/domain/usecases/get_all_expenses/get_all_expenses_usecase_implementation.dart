@@ -1,4 +1,4 @@
-import '../../entities/expense_entity.dart';
+import '../../../presentation/Ui/models/expense_model.dart';
 import '../../repositories/get_all_expenses_repository.dart';
 import 'get_all_expenses_usecase.dart';
 
@@ -8,7 +8,7 @@ class GetAllExpensesUsecaseImplementation implements GetAllExpensesUsecase {
   GetAllExpensesUsecaseImplementation(this._getAllExpensesRepository);
 
   @override
-  Future<List<ExpenseEntity>> call() async {
+  Future<List<ExpenseModel>> call() async {
     return await _getAllExpensesRepository();
   }
 }

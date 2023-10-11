@@ -1,5 +1,5 @@
-import '../../domain/entities/expense_entity.dart';
 import '../../domain/repositories/get_all_expenses_repository.dart';
+import '../../presentation/Ui/models/expense_model.dart';
 import '../datasources/get_all_expenses_datasource.dart';
 
 class GetAllExpensesRepositoryImplementation
@@ -9,7 +9,7 @@ class GetAllExpensesRepositoryImplementation
   GetAllExpensesRepositoryImplementation(this._getAllExpensesDatasource);
 
   @override
-  Future<List<ExpenseEntity>> call() async {
+  Future<List<ExpenseModel>> call() async {
     try {
       return await _getAllExpensesDatasource();
     } on Exception {
