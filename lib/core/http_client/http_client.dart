@@ -1,17 +1,17 @@
-import 'package:http/http.dart';
+import 'http_response_model.dart';
 
 abstract class HttpClient {
-  Future<Response> get<T>(String path);
+  Future<HttpResponseModel> get<T>(String path);
 
-  Future<Response> post<T>(
+  Future<HttpResponseModel> post<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<Response> patch<T>(
+  Future<HttpResponseModel> patch<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<Response> delete<T>(String path);
+  Future<HttpResponseModel> delete<T>(String path);
 }
