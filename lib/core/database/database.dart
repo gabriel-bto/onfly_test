@@ -28,7 +28,8 @@ class DB {
 
   String get _expense => '''
     CREATE TABLE expense (
-      id VARCHAR(50) PRIMARY KEY,
+      idLocal INT AUTO_INCREMENT PRIMARY KEY,
+      id VARCHAR(50),
       description VARCHAR(500),
       expenseDate DATETIME,
       amount DOUBLE,
@@ -36,7 +37,7 @@ class DB {
       longitude VARCHAR(20),
       isCreate INTEGER(1) DEFAULT 0,
       isUpdate INTEGER(1) DEFAULT 0,
-      isRemove INTEGER(1) DEFAULT 0,
+      isRemove INTEGER(1) DEFAULT 0
     )
   ''';
 }
