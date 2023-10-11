@@ -10,6 +10,10 @@ class GetAllExpensesRepositoryImplementation
 
   @override
   Future<List<ExpenseEntity>> call() async {
-    return await _getAllExpensesDatasource();
+    try {
+      return await _getAllExpensesDatasource();
+    } on Exception {
+      throw Exception('Não foi possível buscar despesas');
+    }
   }
 }

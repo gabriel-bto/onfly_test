@@ -8,5 +8,11 @@ class RemoveExpenseFromIdRepositoryImplementation
   RemoveExpenseFromIdRepositoryImplementation(this._removeExpenseDatasource);
 
   @override
-  Future<bool> call(String id) async => await _removeExpenseDatasource(id);
+  Future<bool> call(String id) async {
+    try {
+      return await _removeExpenseDatasource(id);
+    } on Exception {
+      throw Exception('Não foi possível remover a despesa');
+    }
+  }
 }

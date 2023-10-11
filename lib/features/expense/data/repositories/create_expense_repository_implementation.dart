@@ -8,6 +8,11 @@ class CreateExpenseRepositoryImplementation implements CreateExpenseRepository {
   CreateExpenseRepositoryImplementation(this._createExpenseDatasource);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async =>
-      await _createExpenseDatasource(expenseEntity);
+  Future<bool> call(ExpenseEntity expenseEntity) async {
+    try {
+      return await _createExpenseDatasource(expenseEntity);
+    } on Exception {
+      throw Exception('Não foi possível criar a despesa');
+    }
+  }
 }

@@ -8,6 +8,11 @@ class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   UpdateExpenseRepositoryImplementation(this._expenseDatasource);
 
   @override
-  Future<bool> call(ExpenseEntity expenseEntity) async =>
-      await _expenseDatasource(expenseEntity);
+  Future<bool> call(ExpenseEntity expenseEntity) async {
+    try {
+      return await _expenseDatasource(expenseEntity);
+    } on Exception {
+      throw Exception('Não foi possível atualizar a despesa');
+    }
+  }
 }

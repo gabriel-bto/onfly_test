@@ -9,5 +9,11 @@ class GetExpenseFromIdRepositoryImplementation
   GetExpenseFromIdRepositoryImplementation(this._getExpenseFromIdDatasource);
 
   @override
-  Future<ExpenseEntity> call(String id) async => await _getExpenseFromIdDatasource(id);
+  Future<ExpenseEntity> call(String id) async {
+    try {
+      return await _getExpenseFromIdDatasource(id);
+    } on Exception {
+      throw Exception('Não foi possível busca a despesa');
+    }
+  }
 }
