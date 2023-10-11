@@ -6,12 +6,19 @@ class RemoveExpenseFromIdRemoteDatasourceImplementation
     implements RemoveExpenseFromIdDatasource {
   final HttpClientImplementation _httpClientImplementation;
 
-  RemoveExpenseFromIdRemoteDatasourceImplementation(this._httpClientImplementation);
+  RemoveExpenseFromIdRemoteDatasourceImplementation(
+      this._httpClientImplementation);
 
   @override
   Future<bool> call(String id) async {
-    await _httpClientImplementation.get(ApiUtils.getRouteRemoveExpense(id));
+    final result = await _httpClientImplementation.get(
+      ApiUtils.getRouteRemoveExpense(id),
+    );
 
-    return true;
+    if (result.statusCode != 200) {
+      throw Exception('ocourred an error');
+    }
+
+    return result.statusCode == 200;
   }
 }

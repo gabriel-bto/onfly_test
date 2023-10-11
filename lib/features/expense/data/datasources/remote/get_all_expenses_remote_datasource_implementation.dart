@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';
@@ -13,10 +14,16 @@ class GetAllExpensesRemoteDatasourceImplementation
 
   @override
   Future<List<ExpenseEntity>> call() async {
-    var response = await _httpClientImplementation.get(
+    var result = await _httpClientImplementation.get(
       ApiUtils.routeListExpenses,
     );
-    var jsonList = jsonEncode(response.body) as List;
+
+    if (result.statusCode != 200) {
+      throw const HttpException('an error ocourred');
+    }
+
+    var json = jsonDecode(result.data);
+    var jsonList = json['items'] as List;
     return jsonList.map((json) => ExpenseModel.fromJson(json)).toList();
   }
 }

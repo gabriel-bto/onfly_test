@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import '../../../../../core/http_client/http_client_implementation.dart';
 import '../../../../../core/utils/api_utils.dart';
@@ -16,12 +17,16 @@ class GetExpenseFromIdRemoteDatasourceImplementation
 
   @override
   Future<ExpenseEntity> call(String id) async {
-    var response = await _httpClientImplementation.get(
+    var result = await _httpClientImplementation.get(
       ApiUtils.getRouteGetExpense(id),
     );
 
-    var json = jsonDecode(response.body);
+    if (result.statusCode != 200) {
+      throw const HttpException('an error ocourred');
+    }
 
-    return ExpenseModel.fromJson(json);
+    var json = jsonDecode(result.data);
+
+    return ExpenseModel.fromJson(json['items']);
   }
 }
