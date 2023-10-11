@@ -55,7 +55,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
 
     if (result == null) return;
 
-    expanseDate = result;
+    expanseDate = result.toUtc();
     expenseDateEC.text = formatter.format(now);
   }
 

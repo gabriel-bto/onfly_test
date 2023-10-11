@@ -17,7 +17,7 @@ extension ExpenseModelExtension on ExpenseEntity {
   Map<String, dynamic> toJson() {
     return {
       'description': description,
-      'expense_date': expenseDate.toIso8601String(),
+      'expense_date': expenseDate.toUtc().toString(),
       'amount': amount,
       'latitude': latitude,
       'longitude': longitude,
