@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -26,7 +25,6 @@ class GetAllExpensesLocalDecoratorImplementation
   Future<List<ExpenseEntity>> _getInLocal() async {
     db = await DB.istance.database;
     final result = await db.query('expense');
-    var jsonList = jsonEncode(result) as List;
-    return jsonList.map((json) => ExpenseModel.fromJson(json)).toList();
+    return result.map((json) => ExpenseModel.fromJson(json)).toList();
   }
 }

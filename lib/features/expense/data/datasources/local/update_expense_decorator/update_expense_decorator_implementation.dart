@@ -41,6 +41,8 @@ class UpdateExpenseDecoratorImplementation extends UpdateExpenseDecorator {
     await db.update(
       'expense',
       {'isUpdate': 1},
+      where: 'id = ?',
+      whereArgs: [expenseEntity.id],
     );
 
     return true;

@@ -41,6 +41,8 @@ class CreateExpenseLocalDecoratorImplementation
     final result = await db.update(
       'expense',
       {'isCreate': 1},
+      where: 'id = ?',
+      whereArgs: [expenseEntity.id],
     );
 
     return result > 0;

@@ -13,7 +13,7 @@ class UpdateExpenseRemoteDatasourceImplementation
   @override
   Future<bool> call(ExpenseEntity expenseEntity) async {
     final result = await _httpClientImplementation.patch(
-      ApiUtils.getRouteUpdateExpense(expenseEntity.id),
+      ApiUtils.getRouteUpdateExpense(expenseEntity.id!),
       queryParameters: expenseEntity.toJson(),
     );
 

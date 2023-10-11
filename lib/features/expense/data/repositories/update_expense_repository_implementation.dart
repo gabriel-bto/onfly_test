@@ -10,6 +10,10 @@ class UpdateExpenseRepositoryImplementation implements UpdateExpenseRepository {
   @override
   Future<bool> call(ExpenseEntity expenseEntity) async {
     try {
+      if (expenseEntity.id == null) {
+        throw ArgumentError('ID can\'\t be null');
+      }
+
       return await _expenseDatasource(expenseEntity);
     } on Exception {
       throw Exception('Não foi possível atualizar a despesa');
