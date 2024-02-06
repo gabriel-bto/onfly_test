@@ -41,10 +41,12 @@ class ExpenseController extends ChangeNotifier {
   Future<void> getAllExpensesUsecase() async {
     var expenseList = await _getAllExpensesUsecase();
 
-    final total = expenses.value.fold<double>(
-      0.0,
-      (previousValue, expense) => previousValue + expense.amount,
-    );
+    double total = 0;
+
+    if (expenseList.isNotEmpty) {
+      total =
+          expenseList.map((expense) => expense.amount).reduce((a, b) => a + b);
+    }
 
     expenses.value = expenseList;
     totalExpenses.value = total.toString();

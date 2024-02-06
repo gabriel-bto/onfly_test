@@ -26,6 +26,7 @@ void main() {
   });
 
   test('should throw an Exception', () {
-    expect(() async => await implementation(expense), throwsA(isA<Exception>()));
+    expect(
+        () async => await implementation(expense), throwsA(isA<Exception>()));
   });
 }

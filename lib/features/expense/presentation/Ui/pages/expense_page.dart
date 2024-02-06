@@ -53,6 +53,7 @@ class _ExpensePageState extends State<ExpensePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
+        backgroundColor: context.primaryColor,
         title: Image.asset('assets/images/logo.png'),
         centerTitle: true,
       ),
@@ -63,18 +64,21 @@ class _ExpensePageState extends State<ExpensePage> {
         children: [
           ValueListenableBuilder(
             valueListenable: controller.totalExpenses,
-            builder: (__, double value, _) {
-              return TotalExpenseCard(value: value.toStringAsFixed(2));
+            builder: (context, value, widget) {
+              return TotalExpenseCard(value: value);
             },
           ),
           Expanded(
             child: ValueListenableBuilder(
               valueListenable: controller.expenses,
-              builder: (_, expanses, __) {
+              builder: (context, expenses, widget) {
                 return ListView.builder(
-                  itemCount: expanses.length,
+                  itemCount: expenses.length,
                   itemBuilder: (context, index) {
-                    return ExpansibleCard(expense: expanses[index], controller: controller);
+                    return ExpansibleCard(
+                      expense: expenses[index],
+                      controller: controller,
+                    );
                   },
                 );
               },

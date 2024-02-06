@@ -7,8 +7,7 @@ extension ExpenseModelExtension on ExpenseEntity {
     return ExpenseEntity(
       id: json['id'] as String?,
       description: json['description'] as String? ?? '',
-      expenseDate: DateTime.tryParse(json['expense_date'] as String? ?? '') ??
-          DateTime.now(),
+      expenseDate: DateTime.parse(json['expenseDate'] as String),
       amount: json['amount'] as double? ?? 0,
       latitude: json['latitude'] as String? ?? '',
       longitude: json['longitude'] as String? ?? '',

@@ -29,7 +29,7 @@ class CreateExpenseLocalDecoratorImplementation
       [
         expenseEntity.id,
         expenseEntity.description,
-        expenseEntity.expenseDate.toUtc(),
+        expenseEntity.expenseDate.toUtc().toString(),
         expenseEntity.amount,
         expenseEntity.latitude,
         expenseEntity.longitude,
@@ -39,7 +39,9 @@ class CreateExpenseLocalDecoratorImplementation
     return expenseEntity;
   }
 
-  Future<ExpenseEntity> _createInLocalWithCache(ExpenseEntity expenseEntity) async {
+  Future<ExpenseEntity> _createInLocalWithCache(
+    ExpenseEntity expenseEntity,
+  ) async {
     db = await DB.istance.database;
 
     await db.rawInsert(

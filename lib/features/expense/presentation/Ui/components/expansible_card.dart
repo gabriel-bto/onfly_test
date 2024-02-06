@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
 import 'package:onfly_test/core/ui/theme_extension.dart';
+import 'package:onfly_test/features/expense/presentation/Ui/components/confirm_dialog.dart';
 import 'package:onfly_test/features/expense/presentation/Ui/widgets/picture_container.dart';
 
 import '../../controllers/expense_controller.dart';
@@ -29,15 +29,13 @@ class _ExpansibleCardState extends State<ExpansibleCard> {
   var formatter = DateFormat('dd/MM/yyyy');
   final isExpanded = ValueNotifier<bool>(false);
 
-  final controller = GetIt.I.get<ExpenseController>();
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: isExpanded,
       builder: (_, bool value, __) {
         return SizedBox(
-          height: value ? 380 : 91,
+          height: value ? 398 : 112,
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -73,17 +71,20 @@ class _ExpansibleCardState extends State<ExpansibleCard> {
                               child: Icon(Icons.cloud_off, color: Colors.black),
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Transform.rotate(
-                              angle: 180 * math.pi / 120,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.black,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Transform.rotate(
+                                angle: 180 * math.pi / 120,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () =>
+                                      isExpanded.value = !isExpanded.value,
                                 ),
-                                onPressed: () =>
-                                    isExpanded.value = !isExpanded.value,
                               ),
                             ),
                           ),
@@ -118,9 +119,22 @@ class _ExpansibleCardState extends State<ExpansibleCard> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    await controller.removeExpenseFromIdUsecase(
+                                    final bool? confirm =
+                                        await confirmDialog(context);
+
+                                    if (confirm == null) return;
+                                    if (!confirm) return;
+
+                                    final bool result = await widget.controller
+                                        .removeExpenseFromIdUsecase(
                                       widget.expense.id!,
                                     );
+
+                                    if (result) {
+                                      await widget.controller
+                                          .getAllExpensesUsecase();
+                                      isExpanded.value = !isExpanded.value;
+                                    }
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -149,13 +163,14 @@ class _ExpansibleCardState extends State<ExpansibleCard> {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return AddEditExpensePage(
-                                            controller: controller,
+                                            controller: widget.controller,
                                             expense: widget.expense,
                                           );
                                         },
                                       ),
                                     );
-                                    await controller.getAllExpensesUsecase();
+                                    await widget.controller
+                                        .getAllExpensesUsecase();
                                   },
                                   child: const Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

@@ -28,8 +28,6 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
   final amountEC = TextEditingController();
   var formatter = DateFormat('dd/MM/yyyy');
 
-  DateTime? expanseDate;
-
   @override
   void initState() {
     controller = widget.controller;
@@ -52,11 +50,17 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
   }
 
   Future<void> selectDatePicker() async {
-    final now = DateTime.now();
+    DateTime? initialDate;
 
-    DateTime? result = await showDatePicker(
+    if (expenseDateEC.text.isNotEmpty) {
+      initialDate = DateFormat("dd/MM/yyyy").parse(expenseDateEC.text);
+    } else {
+      initialDate = DateTime.now();
+    }
+
+    DateTime? date = await showDatePicker(
       context: context,
-      initialDate: now,
+      initialDate: initialDate,
       locale: const Locale('pt', 'BR'),
       firstDate: DateTime.now().subtract(
         const Duration(days: 365 * 100),
@@ -66,10 +70,9 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
       ),
     );
 
-    if (result == null) return;
+    if (date == null) return;
 
-    expanseDate = result.toUtc();
-    expenseDateEC.text = formatter.format(now);
+    expenseDateEC.text = formatter.format(date);
   }
 
   @override
@@ -77,7 +80,12 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
     return Scaffold(
       floatingActionButton: AddExpenseButton(
         label: widget.expense != null ? 'Alterar Despesa' : 'Adicionar Despesa',
-        icon: widget.expense != null ? const Icon(Icons.edit) : null,
+        icon: widget.expense != null
+            ? const Icon(
+                Icons.edit,
+                color: Colors.white,
+              )
+            : null,
         onPressed: () async => widget.expense != null
             ? await updateExpense()
             : await createExpense(),
@@ -85,6 +93,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: context.scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: context.primaryColor,
         title: Text(
           widget.expense != null ? 'Alterar Despesa' : 'Adicionar Despesa',
         ),
@@ -168,13 +177,13 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
     if (formKey.currentState!.validate()) {
       final updateExpense = widget.expense!.copyWith(
         description: descriptionEC.text,
-        expenseDate: expanseDate,
+        expenseDate: DateFormat("dd/MM/yyyy").parse(expenseDateEC.text),
         amount: double.parse(amountEC.text.replaceAll(',', '.')),
       );
 
       await controller.updateExpenseUsecase(updateExpense);
 
-      if (context.mounted) Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
     }
   }
 
@@ -207,7 +216,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
       } finally {
         final expense = ExpenseEntity(
           description: descriptionEC.text,
-          expenseDate: expanseDate!,
+          expenseDate: DateFormat("dd/MM/yyyy").parse(expenseDateEC.text),
           amount: double.parse(amountEC.text.replaceAll(',', '.')),
           latitude: latitude,
           longitude: longitude,
@@ -215,7 +224,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
 
         await controller.createExpenseUsecase(expense);
 
-        if (context.mounted) Navigator.pop(context);
+        if (mounted) Navigator.pop(context);
       }
     }
   }
